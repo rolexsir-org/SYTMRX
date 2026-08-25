@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Design tokens — "Graphite & Brass"
+   Near-black interface, cool neutral ramp, single warm brass accent.
+   8px spacing system, 3-step radius system, 1px hairline borders.
+   ========================================================================= */
+
+@theme {
+  /* Surfaces: cool near-black, never pure #000 (avoids OLED smearing) */
+  --color-ink-950: #050506;
+  --color-ink-900: #08080a;
+  --color-ink-850: #0b0b0e;
+  --color-ink-800: #101014;
+  --color-ink-700: #16161b;
+  --color-ink-600: #1d1d23;
+  --color-ink-500: #26262e;
+
+  /* Text ramp: primary / secondary / muted / metadata */
+  /* Contrast-verified against the darkest surface (#08080a):
+     bone-200 12.8:1 · bone-400 7.4:1 · bone-500 5.8:1 · bone-600 4.6:1
+     Every step clears WCAG AA (4.5:1) for body text. */
+  --color-bone-50: #f4f4f2;
+  --color-bone-200: #cfcfcb;
+  --color-bone-400: #9d9da5;
+  --color-bone-500: #8a8a92;
+  --color-bone-600: #78787f;
+
+  /* Accent: desaturated brass. Warm, restrained, not neon, not red. */
+  --color-brass-100: #f6e7c8;
+  --color-brass-300: #e6c894;
+  --color-brass-400: #d8b87e;
+  --color-brass-500: #c9a469;
+  --color-brass-600: #a9884f;
+
+  /* Semantic signal colors — used only for status, never decoration */
+  --color-signal-live: #7fd1a6;
+  --color-signal-beta: #9db8e8;
+  --color-signal-work: #d8b87e;
+  --color-signal-idle: #9a9aa2;
+
+  /* Hairlines */
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Radius system */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  /* Type */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* ============================================================================
+   Base
+   ========================================================================= */
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Offset for the sticky header when jumping to #anchors */
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-bone-200);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-brass-300);
+    color: var(--color-ink-950);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-bone-50);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* High-quality, consistent focus states everywhere */
+  :focus-visible {
+    outline: 2px solid var(--color-brass-300);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Only hide the outline when the element paints its own focus ring */
+  [data-focus-ring="custom"]:focus-visible {
+    outline: none;
+  }
+}
+
+/* ============================================================================
+   Utilities
+   ========================================================================= */
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Editorial display type: tight, optically aligned, no orphan tracking */
+@utility display {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  color: var(--color-bone-50);
+}
+
+@utility serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Uppercase mono metadata label */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bone-500);
+}
+
+@utility hairline {
+  border: 1px solid var(--color-line);
+}
+
+/* Restrained glass — used sparingly (header, overlays, pills) */
+@utility glass {
+  background-color: color-mix(in oklab, var(--color-ink-900) 72%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* Page gutter, consistent across every route */
+@utility gutter {
+  padding-inline: 20px;
+  @media (width >= 768px) {
+    padding-inline: 40px;
+  }
+  @media (width >= 1280px) {
+    padding-inline: 64px;
+  }
+}
+
+/* ============================================================================
+   Texture: fine grid + noise. Fixed, cheap, non-interactive.
+   ========================================================================= */
+
+.texture-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.texture-noise {
+  /* Static SVG fractal noise — no runtime cost, no image request */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.028;
+}
+
+/* ============================================================================
+   Motion primitives (CSS-driven so they work without JS)
+   ========================================================================= */
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.status-ring {
+  animation: pulse-ring 2.8s var(--ease-out-expo) infinite;
+}
+
+/* Hero entrance.
+   Implemented in CSS rather than JS so the first paint already carries the
+   animation: it starts at paint time instead of waiting for React to hydrate,
+   which keeps Largest Contentful Paint fast. `both` fill mode means the
+   reduced-motion override below (duration ~0) lands on the final visible
+   state rather than leaving content stuck at opacity 0. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.enter {
+  animation: fade-up 0.85s var(--ease-out-expo) both;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-x 46s linear infinite;
+  will-change: transform;
+}
+
+@keyframes sheen {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-ink-800) 0%,
+    var(--color-ink-700) 40%,
+    var(--color-ink-800) 80%
+  );
+  background-size: 200% 100%;
+  animation: sheen 1.6s linear infinite;
+}
+
+/* ============================================================================
+   Reduced motion — a hard stop, honoured by CSS and by the JS layer.
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Thin, unobtrusive scrollbar that matches the interface */
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 999px;
+    border: 3px solid var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-500);
+  }
+}
