@@ -48,14 +48,29 @@ export const siteConfig = {
   shortName: "SYTMRX",
   /** Category line used under the wordmark and in the footer. */
   disciplines: "Software · Apps · Games · Digital Products",
-  positioning: "We build software, games, and digital products.",
+  positioning: "Independent software development — Android, AI, productivity, offline-first systems, web.",
   description:
-    "SYTMRX builds software, applications, games, and digital products.",
+    "SYTMRX — independent software development and product building. Android launchers, productivity tools, AI assistants, offline-first systems and web platforms.",
   longDescription:
-    "An independent technology company building software, applications, games, offline-first systems, and experimental digital products.",
-  defaultTitle: "SYTMRX — Software, Apps & Games",
+    "SYTMRX is the product label of an independent software developer building Android launchers, productivity and focus tools, AI assistants, business systems and the web infrastructure that distributes them. Every project is developed end to end and open to inspection on GitHub.",
+  defaultTitle: "SYTMRX — Independent Software Development & Products",
   locale: "en_US",
   url: siteUrl,
+} as const;
+
+/**
+ * The developer behind SYTMRX.
+ *
+ * Identity is derived from public evidence: the GitHub account, the source
+ * repository layout and the public contact channels already configured on
+ * this site. Nothing here invents credentials, employment history or dates.
+ */
+export const founderConfig = {
+  role: "Independent Software Developer & Product Builder",
+  /** Public GitHub account that hosts all SYTMRX source and releases. */
+  github: githubUsername,
+  summary:
+    "Building software across Android, productivity, AI, business systems, developer tools and web applications — designed, implemented, tested and shipped end to end by one developer.",
 } as const;
 
 /**
@@ -79,10 +94,10 @@ export const mailtoUrl = `mailto:${contactConfig.email}`;
 export const statusConfig = {
   label: "Currently building",
   /**
-   * Optional. Set to a short, true phrase once you want to name what is being
-   * worked on. Leave null to stay generic.
+   * A short, true phrase naming what is being worked on. Updated from the
+   * actual development focus; see src/data/current.ts for the full picture.
    */
-  detail: null as string | null,
+  detail: "LumaOS Pro + TrackPro release engineering" as string | null,
 };
 
 export function githubProfileUrl(): string {

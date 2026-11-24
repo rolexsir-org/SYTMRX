@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts (npm @fontsource packages). These are the same Google
+   families the site previously fetched with next/font at build time, now
+   bundled from npm so the build is fully offline-reproducible and no request
+   to fonts.googleapis.com is ever made. */
+@import "@fontsource-variable/instrument-sans/wght.css";
+@import "@fontsource-variable/instrument-sans/wght-italic.css";
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+
 /* ============================================================================
    Design tokens — "Graphite & Brass"
    Near-black interface, cool neutral ramp, single warm brass accent.
@@ -49,11 +59,11 @@
   --radius-md: 14px;
   --radius-lg: 22px;
 
-  /* Type */
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system,
+  /* Type — families provided by the @fontsource imports above. */
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", monospace;
 
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

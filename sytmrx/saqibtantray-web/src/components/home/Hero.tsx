@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 
-import { siteConfig, statusConfig } from "@/config/site";
+import { statusConfig } from "@/config/site";
 import { HeroAmbience } from "./HeroAmbience";
 
 /**
@@ -100,9 +100,9 @@ export function Hero() {
               className="enter mt-10 max-w-[30ch] text-[clamp(1.5rem,4.2vw,2.5rem)] leading-[1.12] tracking-[-0.028em] text-[var(--color-bone-50)]"
               style={delay(0.24)}
             >
-              We build software, games, and{" "}
+              Software built end to end —{" "}
               <span className="serif-accent text-[var(--color-brass-300)]">
-                digital products.
+                and open to inspection.
               </span>
             </p>
 
@@ -111,7 +111,10 @@ export function Hero() {
               className="enter mt-7 max-w-[52ch] text-[15px] leading-[1.65] text-[var(--color-bone-400)] md:text-base"
               style={delay(0.32)}
             >
-              {siteConfig.longDescription}
+              Android launchers, productivity and focus tools, AI assistants,
+              business systems and the web infrastructure that distributes them —
+              engineered by an independent developer, with every project{"'"}s source
+              public on GitHub.
             </p>
 
             {/* CTAs — 48px touch targets */}

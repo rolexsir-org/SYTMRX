@@ -22,14 +22,18 @@ export const metadata: Metadata = {
 };
 
 /**
- * Alternating composition rhythm so no two consecutive projects share a layout.
- * The first project always gets the largest treatment.
+ * Alternating composition rhythm for the audited portfolio — no two
+ * consecutive projects share a layout, and the first always gets the largest
+ * treatment. Products whose capabilities are not documented yet render as
+ * compact rows with the honest "details not published" state instead of being
+ * padded into a rich composition.
  */
 const RHYTHM: ProjectLayout[] = ["feature", "horizontal", "showcase", "horizontal"];
 
 export default async function ProjectsPage() {
   const projects = allProjects();
   const releases = await getProjectReleases(projects);
+  let rhythmIndex = 0;
 
   return (
     <>
@@ -56,18 +60,21 @@ export default async function ProjectsPage() {
           </p>
         ) : (
           <div className="flex flex-col gap-20 md:gap-32">
-            {projects.map((project, index) => (
-              <ProjectShowcase
-                key={project.slug}
-                project={project}
-                release={releases.get(project.slug) ?? staticRelease(project)}
-                index={index + 1}
-                layout={RHYTHM[index % RHYTHM.length]}
-                priority={index === 0}
-                // Direct children of the page <h1> on this route.
-                headingLevel="h2"
-              />
-            ))}
+            {projects.map((project, index) => {
+              const audited = project.repository !== null;
+              return (
+                <ProjectShowcase
+                  key={project.slug}
+                  project={project}
+                  release={releases.get(project.slug) ?? staticRelease(project)}
+                  index={index + 1}
+                  layout={audited ? RHYTHM[rhythmIndex++ % RHYTHM.length] : "compact"}
+                  priority={index === 0}
+                  // Direct children of the page <h1> on this route.
+                  headingLevel="h2"
+                />
+              );
+            })}
           </div>
         )}
       </Section>

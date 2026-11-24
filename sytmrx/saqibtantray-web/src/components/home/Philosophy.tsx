@@ -31,7 +31,7 @@ export function Philosophy() {
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <Reveal>
-              <p className="label">04 — Build philosophy</p>
+              <p className="label">05 — Build philosophy</p>
             </Reveal>
             <Reveal delay={0.06}>
               <blockquote className="mt-8">

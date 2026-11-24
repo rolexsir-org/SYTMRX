@@ -119,7 +119,7 @@ This is deliberately precise, because "static" is not the whole story:
 
 | Content | How it renders |
 | --- | --- |
-| All pages/routes | **Prerendered at build time** (SSG). 18 routes. |
+| All pages/routes | **Prerendered at build time** (SSG). 27 routes. |
 | Project/product data | **Fully static** — compiled from `projects.ts`. |
 | GitHub release + repo data | **Fetched on the server and cached for 1 hour** (ISR). |
 
@@ -435,7 +435,8 @@ Tokens live in `src/app/globals.css` under `@theme`.
 - **Signals** — `signal-live / beta / work / idle`, used only for status.
 - **Spacing** — 8px system. **Radius** — `xs 4 / sm 8 / md 14 / lg 22`.
 - **Type** — Instrument Sans (UI), Instrument Serif (italic accents),
-  JetBrains Mono (metadata). Self-hosted via `next/font`, zero layout shift.
+  JetBrains Mono (metadata). Self-hosted from npm via `@fontsource` packages,
+  so the build never depends on Google Fonts being reachable.
 
 Accessibility: semantic landmarks, skip link, visible focus rings,
 focus-trapped mobile menu and lightbox, correct heading order, meaningful alt
@@ -464,25 +465,27 @@ Nothing on this site is fabricated: unknown values render as `—`,
 
 ## 17. Current data state
 
-Honest snapshot of what is and is not configured:
+Honest snapshot of what is and is not configured (audited 2026-11-24 against
+the public repositories):
 
 | Item | State |
 | --- | --- |
 | GitHub owner | `rolexsir-org` (configured) |
-| Repositories in Open Source | `offlinemesh`, `crispy-system` — the two that actually exist |
-| Product → repository mapping | **`repository: null` for all six products** |
+| Verified portfolio | 10 projects mapped to real repositories: `lumaospro`, `trackpro`, `coldstore-`, `brain`, `guardian-`, `puck`, `ASCEND`, `learn`, `ludox`, `SYTMRX` |
+| Product → repository mapping | every repository-backed product verified against its source tree, README and test suites |
+| Unmapped products | `offline-institute-management`, `yourcart`, `mesh-messenger`, `bloom`, `stack` — existence public, capabilities undocumented, rendered with the honest "details not published" state |
 | Published releases | none in the organisation |
-| Downloads | all show "Not published yet" |
-| Screenshots | none added; placeholders shown |
+| Downloads | all show "Not published yet"; they activate automatically per product when a release with a matching asset is published |
+| Screenshots | LumaOS Pro design renderings and Puck's hero graphic, each captioned with its provenance; no device screenshots exist yet and none are claimed |
+| Founder identity | "The developer" homepage strip + rewritten `/about` — independent developer, no invented credentials |
+| New homepage sections | The developer · Selected products · Product catalogue · Engineering focus · Currently building · Build philosophy · Verified stack · GitHub · Contact |
+| GitHub integration | `getOrgRepoViews()` in `src/lib/github.ts` — one cached, timeout-bounded fetch of the owner's public repos with an audited static fallback |
+| Stack data | `src/data/stack.ts` — every applied entry carries a source-level note; MongoDB and Supabase are **absent** (no repository evidence) |
 | Contact | `sytmrx.dev@gmail.com`, `@saqibtantrayy` (real) |
 
-Product repositories are `null` because no repository in the organisation could
-be confidently matched to a product. Set `repository: { name: "<repo>" }` for a
-product and — once a release with a matching asset is published — its download
-activates automatically with no further code changes.
-
-`npm run validate:data` currently emits 6 warnings for exactly this, which is
-the intended, honest signal.
+`npm run validate:data` emits 6 warnings: five for products whose downloads
+stay pending until their repositories exist, and one because Ludora has a
+version without a release date. All are the intended, honest signals.
 
 ---
 

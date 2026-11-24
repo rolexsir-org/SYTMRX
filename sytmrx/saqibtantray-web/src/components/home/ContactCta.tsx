@@ -20,7 +20,7 @@ export function ContactCta() {
       <div className="gutter relative mx-auto max-w-[1600px] py-24 md:py-32 lg:py-40">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <p className="label">06 — Contact</p>
+            <p className="label">08 — Contact</p>
           </Reveal>
 
           <Reveal delay={0.06}>

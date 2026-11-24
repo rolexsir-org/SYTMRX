@@ -159,6 +159,9 @@ export function ProjectShowcase({
     .map((p) => platformMeta[p].label)
     .join(" · ");
   const tech = project.technologies.slice(0, 4).join(" · ");
+  // Evidence highlights render only when the data defines them, and only the
+  // first three — they are proof points, not a feature dump.
+  const highlights = (project.highlights ?? []).slice(0, 3);
 
   const header = (
     <div className="flex items-center gap-4">
@@ -206,6 +209,24 @@ export function ProjectShowcase({
               <MetaRow label="Technology" value={orDash(tech)} />
               <MetaRow label="Type" value={categoryMeta[project.category]} />
             </dl>
+
+            {highlights.length > 0 && (
+              <ul className="mt-8 flex flex-col gap-3">
+                {highlights.map((highlight) => (
+                  <li
+                    key={highlight.label}
+                    className="border-l-2 border-[var(--color-brass-600)] pl-4"
+                  >
+                    <p className="text-[13px] font-medium text-[var(--color-bone-200)]">
+                      {highlight.label}
+                    </p>
+                    <p className="mt-1 text-[12.5px] leading-[1.6] text-[var(--color-bone-500)]">
+                      {highlight.detail}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="mt-9">
               <ProjectLinks project={project} release={release} />

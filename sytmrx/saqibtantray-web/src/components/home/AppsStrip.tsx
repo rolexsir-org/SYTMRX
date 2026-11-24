@@ -22,7 +22,7 @@ export async function AppsStrip() {
     <>
       <SectionHeader
         index="02"
-        label="Products"
+        label="Product catalogue"
         title={
           <>
             The product{" "}
