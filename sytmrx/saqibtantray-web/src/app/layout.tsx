@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -9,27 +8,9 @@ import { CursorGlow } from "@/components/effects/CursorGlow";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { siteConfig, siteUrl } from "@/config/site";
 
-/* Variable fonts, self-hosted at build time by next/font (no external request,
-   no layout shift, preloaded and subsetted automatically). */
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic", "normal"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
+/* Fonts are self-hosted from npm (@fontsource packages, imported in
+   globals.css) — the same Instrument Sans, Instrument Serif and JetBrains Mono
+   families, with no build-time dependency on Google Fonts. */
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -95,9 +76,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {/* Keyboard users land here first */}
         <a
           href="#main"

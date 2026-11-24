@@ -2,19 +2,22 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Hero } from "@/components/home/Hero";
+import { Founder } from "@/components/home/Founder";
+import { FocusAreas } from "@/components/home/FocusAreas";
+import { CurrentlyBuilding } from "@/components/home/CurrentlyBuilding";
+import { StackSection } from "@/components/home/StackSection";
+import { GithubOrg } from "@/components/home/GithubOrg";
 import { AppsStrip } from "@/components/home/AppsStrip";
-import { Capabilities } from "@/components/home/Capabilities";
 import { Philosophy } from "@/components/home/Philosophy";
-import { OpenSource } from "@/components/home/OpenSource";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { ProjectShowcase } from "@/components/projects/ProjectShowcase";
 import { featuredProjects } from "@/data/projects";
 import { getProjectReleases } from "@/lib/project-release";
 import { staticRelease } from "@/lib/downloads";
-import { contactConfig, siteConfig, siteUrl } from "@/config/site";
+import { contactConfig, githubProfileUrl, siteConfig, siteUrl } from "@/config/site";
 
-/* Fully static; the GitHub section revalidates hourly via fetch cache. */
+/* Fully static; the GitHub-derived sections revalidate hourly via fetch cache. */
 export const revalidate = 3600;
 
 export default async function HomePage() {
@@ -22,7 +25,7 @@ export default async function HomePage() {
   // Resolved once on the server and passed down; components stay presentational.
   const releases = await getProjectReleases(featured);
 
-  /* Structured data: Organization + WebSite.
+  /* Structured data: Organization + Person + WebSite.
      Only facts already stated on the page — no employee count, founding date,
      address or any other claim the site does not make. */
   const jsonLd = {
@@ -35,7 +38,18 @@ export default async function HomePage() {
         description: siteConfig.description,
         url: siteUrl,
         email: contactConfig.email,
-        sameAs: [contactConfig.instagram],
+        founder: { "@id": `${siteUrl}/#founder` },
+        sameAs: [githubProfileUrl(), contactConfig.instagram],
+      },
+      {
+        "@type": "Person",
+        "@id": `${siteUrl}/#founder`,
+        name: "Saqib Tantray",
+        jobTitle: "Independent Software Developer & Product Builder",
+        description:
+          "Independent developer building Android launchers, productivity and focus tools, AI assistants, business systems and web platforms under the SYTMRX label.",
+        url: siteUrl,
+        sameAs: [githubProfileUrl(), contactConfig.instagram],
       },
       {
         "@type": "WebSite",
@@ -59,6 +73,16 @@ export default async function HomePage() {
 
       <Hero />
 
+      {/* Lead — who builds SYTMRX */}
+      <Section id="founder" ariaLabel="Who builds SYTMRX">
+        <div className="mb-10 flex items-center gap-4 border-b border-[var(--color-line)] pb-4 md:mb-14">
+          <span className="label text-[var(--color-bone-600)]">00</span>
+          <span className="label text-[var(--color-bone-400)]">The developer</span>
+          <span aria-hidden="true" className="h-px flex-1 bg-[var(--color-line)]" />
+        </div>
+        <Founder />
+      </Section>
+
       {/* 01 — Selected Work */}
       <Section id="work" ariaLabel="Selected products">
         <SectionHeader
@@ -66,11 +90,11 @@ export default async function HomePage() {
           label="Selected products"
           title={
             <>
-              What we{" "}
-              <span className="serif-accent text-[var(--color-brass-300)]">build</span>
+              What has been{" "}
+              <span className="serif-accent text-[var(--color-brass-300)]">engineered</span>
             </>
           }
-          description="Each product is presented with the information that actually matters: what it does, what it runs on, and how far along it is."
+          description="Each product is presented with the information that actually matters: what it does, what it runs on, how far along it is — and where its source lives."
           action={
             <Link
               href="/projects"
@@ -103,20 +127,30 @@ export default async function HomePage() {
         <AppsStrip />
       </Section>
 
-      {/* 03 — Capabilities */}
-      <Section id="capabilities" ariaLabel="Capabilities">
-        <Capabilities />
+      {/* 03 — Engineering focus */}
+      <Section id="focus" ariaLabel="Engineering focus">
+        <FocusAreas />
       </Section>
 
-      {/* 04 — Philosophy (full-bleed) */}
+      {/* 04 — Currently building */}
+      <Section id="building" ariaLabel="Currently building">
+        <CurrentlyBuilding />
+      </Section>
+
+      {/* 05 — Philosophy (full-bleed) */}
       <Philosophy />
 
-      {/* 05 — Open source */}
-      <Section id="open-source" ariaLabel="Open source and experiments">
-        <OpenSource />
+      {/* 06 — Verified stack */}
+      <Section id="stack" ariaLabel="Verified technology stack">
+        <StackSection />
       </Section>
 
-      {/* 06 — Contact */}
+      {/* 07 — GitHub organisation */}
+      <Section id="github" ariaLabel="GitHub organisation">
+        <GithubOrg />
+      </Section>
+
+      {/* 08 — Contact */}
       <ContactCta />
     </>
   );

@@ -13,6 +13,7 @@ export type Platform = "android" | "windows" | "macos" | "linux" | "ios" | "web"
 
 export type ProjectStatus =
   | "released"
+  | "built"
   | "beta"
   | "in-development"
   | "experimental"
@@ -125,6 +126,12 @@ export interface Project {
   description: string;
   /** Full paragraphs for the project page. May be empty when undocumented. */
   longDescription: string[];
+  /**
+   * Evidence-backed implementation highlights for portfolio cards. Each entry
+   * states one implemented subsystem and the source-level fact that backs it.
+   * Optional; only ever filled from the actual repository, never padded.
+   */
+  highlights?: { label: string; detail: string }[];
   category: ProjectCategory;
   status: ProjectStatus;
   platforms: Platform[];

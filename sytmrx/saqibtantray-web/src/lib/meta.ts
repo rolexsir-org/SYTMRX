@@ -50,6 +50,11 @@ export const statusMeta: Record<
     dot: "bg-[var(--color-signal-live)]",
     text: "text-[var(--color-signal-live)]",
   },
+  built: {
+    label: "Built",
+    dot: "bg-[var(--color-signal-live)]",
+    text: "text-[var(--color-signal-live)]",
+  },
   beta: {
     label: "Beta",
     dot: "bg-[var(--color-signal-beta)]",

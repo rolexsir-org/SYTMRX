@@ -2,7 +2,7 @@ import Link from "next/link";
 import { navItems } from "@/config/nav";
 import { contactConfig, mailtoUrl, siteConfig } from "@/config/site";
 import { BrandMark } from "@/components/ui/BrandMark";
-import { InstagramMark } from "@/components/ui/BrandIcons";
+import { GithubMark, InstagramMark } from "@/components/ui/BrandIcons";
 
 export function SiteFooter() {
   const items = navItems();
@@ -50,6 +50,17 @@ export function SiteFooter() {
                   className="group inline-flex items-center gap-2 text-[13.5px] text-[var(--color-bone-400)] transition-colors hover:text-[var(--color-bone-50)]"
                 >
                   Email: {contactConfig.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`https://github.com/${contactConfig.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 text-[13.5px] text-[var(--color-bone-400)] transition-colors hover:text-[var(--color-bone-50)]"
+                >
+                  <GithubMark aria-hidden="true" className="size-3.5" />
+                  GitHub: {contactConfig.github}
                 </a>
               </li>
             </ul>
